@@ -1,0 +1,13 @@
+<app-quiz-question
+  *ngFor="let question of questions"
+  [question]="question"
+  (answerSelected)="answerSelected()"
+></app-quiz-question>
+<a
+  *ngIf="allAnswerSelected"
+  class="navButton"
+  routerLink="/results"
+  [queryParams]="{questions: questions | json}"
+>
+  Submit
+</a>

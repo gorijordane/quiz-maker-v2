@@ -1,0 +1,17 @@
+<h1 class="title">RESULTS</h1>
+
+<app-quiz-question
+  *ngFor="let question of questions"
+  [question]="question"
+  [displayAnswer]="true"
+></app-quiz-question>
+
+<div
+  [style.margin.px]="20"
+  [style.background-color]="scoreColor"
+  [style.width]="'fit-content'"
+>
+  You scored {{ score }} out of {{ questions.length }}
+</div>
+
+<a class="navButton" routerLink="/"> Create a new quiz </a>

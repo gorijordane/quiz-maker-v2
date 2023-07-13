@@ -1,7 +1,40 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import 'zone.js/dist/zone';
+import { Component, importProvidersFrom } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter, Routes, RouterModule, withComponentInputBinding } from '@angular/router';
+import { QuizMakerService } from './app/quiz-maker.service';
+import { HttpClientModule } from '@angular/common/http';
+import { QuizResultsComponent } from './app/quiz-results/quiz-results.component';
+import { QuizMakerComponent } from './app/quiz-maker/quiz-maker.component';
 
-import { AppModule } from './app/app.module';
+@Component({
+  selector: 'app-main',
+  standalone: true,
+  imports: [CommonModule, HttpClientModule, RouterModule],
+  template: `
+    <router-outlet></router-outlet>
+  `,
+})
+export class App {
+  name = 'QuizMaker';
+}
 
+const routes: Routes = [
+  {
+    path: '',
+    providers: [QuizMakerService],
+    children: [
+      { path: 'results', component: QuizResultsComponent },
+      {
+        path: '',
+        component: QuizMakerComponent,
+        pathMatch: 'full',
+      },
+    ],
+  },
+];
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(App, {
+  providers: [provideRouter(routes, withComponentInputBinding()), importProvidersFrom(HttpClientModule)],
+});

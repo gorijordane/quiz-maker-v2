@@ -1,0 +1,20 @@
+button {
+  border-radius: 10%;
+  padding: 5px;
+  border-color: darkgreen;
+}
+
+.answer {
+  background-color: transparent;
+  color: darkgreen;
+}
+
+.selected-answer {
+  background: darkgreen;
+  color: white;
+}
+
+.wrong-answer {
+  background: red;
+  color: white;
+}

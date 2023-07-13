@@ -1,0 +1,20 @@
+<div [innerHTML]="question.question" [style.margin.px]="5"></div>
+<div *ngIf="!displayAnswer; else showAnswer">
+  <button
+    *ngFor="let possibleAnswer of question.possibleAnswers"
+    [style.margin.px]="5"
+    [class]="question.userAnswer === possibleAnswer ? 'selected-answer' : 'answer'"
+    [innerHTML]="possibleAnswer"
+    (click)="clickAnswer(possibleAnswer)"
+  ></button>
+</div>
+
+<ng-template #showAnswer>
+  <button
+    *ngFor="let possibleAnswer of question.possibleAnswers"
+    [style.margin.px]="5"
+    [class.selected-answer]="possibleAnswer === question.correctAnswer"
+    [class.wrong-answer]="question.userAnswer === possibleAnswer && question.userAnswer !== question.correctAnswer"
+    [innerHTML]="possibleAnswer"
+  ></button>
+</ng-template>

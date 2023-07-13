@@ -1,0 +1,17 @@
+<form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
+  <select id="categorySelect" formControlName="categories">
+    <option value="-1">Select a category</option>
+    <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.name }}</option>
+  </select>
+
+  <select id="difficultySelect" formControlName="difficulties">
+    <option value="-1">Select a difficulty</option>
+    <option *ngFor="let d of difficulties" [ngValue]="d">
+      {{ d }}
+    </option>
+  </select>
+
+  <button id="createBtn" type="submit" [disabled]="!quizForm.valid || isLoading">
+    Create
+  </button>
+</form>
