@@ -1,6 +1,6 @@
 import 'zone.js/dist/zone';
 import { Component, importProvidersFrom } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, Routes, RouterModule, withComponentInputBinding } from '@angular/router';
 import { QuizMakerService } from './app/services/quiz-maker.service';
