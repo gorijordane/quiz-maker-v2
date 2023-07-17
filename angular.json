@@ -13,7 +13,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "dist/quiz-maker-v2",
+            "baseHref": "/quiz-maker-v2/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [

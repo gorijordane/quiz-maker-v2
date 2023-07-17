@@ -1,13 +1,6 @@
-<app-quiz-question
-  *ngFor="let question of questions"
-  [question]="question"
-  (answerSelected)="answerSelected()"
-></app-quiz-question>
-<a
-  *ngIf="allAnswerSelected"
-  class="navButton"
-  routerLink="/results"
-  [queryParams]="{questions: questions | json}"
->
+<app-quiz-question *ngFor="let question of quiz.questions; index as idx" [question]="question"
+  [isExtraQuestion]="!!quiz.extraQuestion" (useExtraQuestion)="changeQuestion(idx)" (answerSelected)="answerSelected()">
+</app-quiz-question>
+<a *ngIf="allAnswerSelected" class="navButton" routerLink="/results" [queryParams]="{questions: quiz.questions | json}">
   Submit
 </a>

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Question } from '../questions';
 import { QuizDisplayerComponent } from '../quiz-displayer/quiz-displayer.component';
 import { QuizSelectorComponent } from '../quiz-selector/quiz-selector.component';
+import { Quiz } from '../models/quiz';
 
 @Component({
   selector: 'app-quiz-maker',
@@ -12,7 +12,7 @@ import { QuizSelectorComponent } from '../quiz-selector/quiz-selector.component'
   styleUrls: ['./quiz-maker.component.css'],
 })
 export class QuizMakerComponent {
-  questions: Question[] = [];
+  quiz: Quiz | null = null;
 
-  constructor() {}
+  constructor() { }
 }

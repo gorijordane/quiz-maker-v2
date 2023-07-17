@@ -1,17 +1,22 @@
-<form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
-  <select id="categorySelect" formControlName="categories">
-    <option value="-1">Select a category</option>
-    <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.name }}</option>
-  </select>
+<div *ngIf="categories.length > 0" class="container">
 
-  <select id="difficultySelect" formControlName="difficulties">
-    <option value="-1">Select a difficulty</option>
+  <app-filterable-dropdown id="categorySelect" [data]="categoryNames" placeHolder="Choose a Category"
+    (dataSelected)="categorySelected($event)">
+  </app-filterable-dropdown>
+
+  <app-filterable-dropdown *ngIf="selectedCategoryIdx !== -1 && category.subCategories.length > 0"
+    id="subCategorySelect" [data]="subCategoryNames" placeHolder="Choose a Sub Category"
+    (dataSelected)="subCategorySelected($event)">
+  </app-filterable-dropdown>
+
+  <select id="difficultySelect" [(ngModel)]="selectedDifficulty">
+    <option value="">Select a difficulty</option>
     <option *ngFor="let d of difficulties" [ngValue]="d">
       {{ d }}
     </option>
   </select>
 
-  <button id="createBtn" type="submit" [disabled]="!quizForm.valid || isLoading">
+  <button id="createBtn" (click)="submit()" [disabled]="isLoading">
     Create
   </button>
-</form>
+</div>

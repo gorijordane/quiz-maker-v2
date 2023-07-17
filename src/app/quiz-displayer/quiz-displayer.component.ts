@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Question } from '../questions';
-import { QuizMakerService } from '../quiz-maker.service';
+import { QuizMakerService } from '../services/quiz-maker.service';
 import { CommonModule } from '@angular/common';
 import { QuizQuestionComponent } from '../quiz-question/quiz-question.component';
 import { RouterModule } from '@angular/router';
+import { Quiz } from '../models/quiz';
 
 @Component({
   selector: 'app-quiz-displayer',
@@ -14,11 +14,11 @@ import { RouterModule } from '@angular/router';
 })
 export class QuizDisplayerComponent implements OnChanges {
   @Input()
-  questions: Question[] = [];
+  quiz!: Quiz;
 
   allAnswerSelected = false;
 
-  constructor(protected quizMakerService: QuizMakerService) {}
+  constructor(protected quizMakerService: QuizMakerService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.checkAllAnswerSelected();
@@ -28,8 +28,13 @@ export class QuizDisplayerComponent implements OnChanges {
     this.checkAllAnswerSelected();
   }
 
+  changeQuestion(idx: number) {
+    this.quiz.questions[idx] = this.quiz.extraQuestion!;
+    delete this.quiz.extraQuestion;
+  }
+
   checkAllAnswerSelected() {
     this.allAnswerSelected =
-      this.questions.length > 0 && this.questions.every((q) => q.userAnswer);
+      this.quiz.questions.length > 0 && this.quiz.questions.every((q) => q.userAnswer);
   }
 }

@@ -1,0 +1,16 @@
+.data-container {
+    box-shadow: 3px 3px 10px;
+    border: 1px;
+    max-width: 250px;
+    min-width: 100px;
+    position: absolute;
+}
+
+.data {
+    padding: 10px;
+    max-width: 250px;
+
+    &:hover {
+        background-color: whitesmoke;
+    }
+}

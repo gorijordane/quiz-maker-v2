@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Question } from '../questions';
+import { Question } from '../models/questions';
 
 @Component({
   selector: 'app-quiz-question',
@@ -16,13 +16,20 @@ export class QuizQuestionComponent {
   @Input()
   displayAnswer = false;
 
+  @Input()
+  isExtraQuestion = false;
+
   @Output()
   answerSelected = new EventEmitter();
 
-  constructor() {}
+  @Output()
+  useExtraQuestion = new EventEmitter();
+
+  constructor() { }
 
   clickAnswer(possibleAnswer: string) {
     this.question.userAnswer = possibleAnswer;
     this.answerSelected.emit();
+    console.log(possibleAnswer, this.question)
   }
 }

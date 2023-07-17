@@ -1,0 +1,6 @@
+<input type="text" [(ngModel)]="filterValue" (ngModelChange)="filter($event)" (focus)="displayData = true"
+    [placeholder]="placeHolder">
+<div class="data-container" *ngIf="displayData" #dataContainer>
+    <div *ngFor="let d of filteredData" class="data" (click)="click(d)" [innerHtml]="d | bold: filterValue">
+    </div>
+</div>

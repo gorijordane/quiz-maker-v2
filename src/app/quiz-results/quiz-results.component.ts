@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { QuizQuestionComponent } from '../quiz-question/quiz-question.component';
-import { Question } from '../questions';
+import { Question } from '../models/questions';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,7 +16,7 @@ export class QuizResultsComponent implements OnInit {
   score = 0;
   scoreColor = 'tranparent';
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.questions = JSON.parse(this.route.snapshot.queryParams['questions']);

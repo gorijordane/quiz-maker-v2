@@ -3,7 +3,7 @@ import { Component, importProvidersFrom } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, Routes, RouterModule, withComponentInputBinding } from '@angular/router';
-import { QuizMakerService } from './app/quiz-maker.service';
+import { QuizMakerService } from './app/services/quiz-maker.service';
 import { HttpClientModule } from '@angular/common/http';
 import { QuizResultsComponent } from './app/quiz-results/quiz-results.component';
 import { QuizMakerComponent } from './app/quiz-maker/quiz-maker.component';
@@ -22,7 +22,7 @@ export class App {
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'quiz-maker-v2',
     providers: [QuizMakerService],
     children: [
       { path: 'results', component: QuizResultsComponent },

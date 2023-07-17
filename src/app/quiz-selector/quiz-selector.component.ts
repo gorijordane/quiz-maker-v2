@@ -1,42 +1,34 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
+  FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { first } from 'rxjs';
-import { Question } from '../questions';
-import { Categories } from '../categories';
-import { QuizMakerService } from '../quiz-maker.service';
+import { Categories } from '../models/categories';
+import { QuizMakerService } from '../services/quiz-maker.service';
+import { FilterableDropdownComponent } from '../filterable-dropdown/filterable-dropdown.component';
+import { Quiz } from '../models/quiz';
 
 @Component({
   selector: 'app-quiz-selector',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FilterableDropdownComponent],
   templateUrl: './quiz-selector.component.html',
   styleUrls: ['./quiz-selector.component.css'],
 })
 export class QuizSelectorComponent {
   @Output()
-  public onCreate = new EventEmitter<Question[]>();
+  public onCreate = new EventEmitter<Quiz>();
 
   categories: Categories[] = [];
   difficulties: string[] = [];
-  quizForm: FormGroup;
   isLoading = false;
+  selectedCategoryIdx = -1;
+  selectedSubCategoryIdx = -1;
+  selectedDifficulty = "";
 
   constructor(protected quizMakerService: QuizMakerService) {
-    this.quizForm = new FormGroup(
-      {
-        categories: new FormControl(this.quizMakerService.previousCategoryId),
-        difficulties: new FormControl(
-          this.quizMakerService.previousDifficultyId
-        ),
-      },
-      { validators: this.checkInputs }
-    );
     this.quizMakerService
       .fetchCategories()
       .pipe(first())
@@ -46,34 +38,39 @@ export class QuizSelectorComponent {
     this.difficulties = this.quizMakerService.getDifficulties();
   }
 
-  private checkInputs(c: AbstractControl) {
-    if (
-      c.get('categories')?.value !== -1 &&
-      c.get('difficulties')?.value !== -1
-    ) {
-      return null;
-    }
-    return {
-      invalidCategory: c.get('categories')?.value !== -1,
-      invalidDifficulty: c.get('difficulties')?.value !== -1,
-    };
+  categorySelected(categoryName: string) {
+    this.selectedCategoryIdx = this.categories.findIndex(c => c.name === categoryName);
   }
 
-  onSubmit() {
+  subCategorySelected(categoryName: string) {
+    this.selectedSubCategoryIdx = this.categories[this.selectedCategoryIdx].subCategories.findIndex(c => c.name === categoryName);
+  }
+
+  get category(): Categories {
+    return this.categories[this.selectedCategoryIdx];
+  }
+
+  get categoryNames(): string[] {
+    return this.categories.map(c => c.name);
+  }
+
+  get subCategoryNames(): string[] {
+    return this.categories[this.selectedCategoryIdx].subCategories.map(c => c.name);
+  }
+
+  submit() {
     this.isLoading = true;
-    this.quizMakerService.previousCategoryId =
-      this.quizForm.controls['categories'].value;
-    this.quizMakerService.previousDifficultyId =
-      this.quizForm.controls['difficulties'].value;
+    const category = this.categories[this.selectedCategoryIdx];
     this.quizMakerService
       .fetchQuiz(
-        this.quizForm.controls['categories'].value,
-        this.quizForm.controls['difficulties'].value.toLowerCase()
+        (this.selectedSubCategoryIdx === -1 ? category.id : category.subCategories[this.selectedSubCategoryIdx].id).toString(),
+        this.selectedDifficulty.toLowerCase(),
+        true
       )
       .pipe(first())
-      .subscribe((questions) => {
+      .subscribe((quiz) => {
         this.isLoading = false;
-        this.onCreate.emit(questions);
+        this.onCreate.emit(quiz);
       });
   }
 }
