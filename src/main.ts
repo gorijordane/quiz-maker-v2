@@ -22,7 +22,7 @@ export class App {
 
 const routes: Routes = [
   {
-    path: 'quiz-maker-v2',
+    path: '',
     providers: [QuizMakerService],
     children: [
       { path: 'results', component: QuizResultsComponent },
