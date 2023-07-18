@@ -23,6 +23,7 @@ export class QuizSelectorComponent {
 
   categories: Categories[] = [];
   difficulties: string[] = [];
+  isValid = false;
   isLoading = false;
   selectedCategoryIdx = -1;
   selectedSubCategoryIdx = -1;
@@ -40,10 +41,18 @@ export class QuizSelectorComponent {
 
   categorySelected(categoryName: string) {
     this.selectedCategoryIdx = this.categories.findIndex(c => c.name === categoryName);
+    this.checkSelectorValid();
   }
 
   subCategorySelected(categoryName: string) {
     this.selectedSubCategoryIdx = this.categories[this.selectedCategoryIdx].subCategories.findIndex(c => c.name === categoryName);
+    this.checkSelectorValid();
+  }
+
+  checkSelectorValid() {
+    this.isValid = this.selectedDifficulty !== "" &&
+      this.selectedCategoryIdx !== -1 &&
+      (this.categories[this.selectedCategoryIdx].subCategories.length === 0 || this.selectedSubCategoryIdx !== -1);
   }
 
   get category(): Categories {

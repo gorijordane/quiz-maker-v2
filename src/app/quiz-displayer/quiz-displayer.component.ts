@@ -31,6 +31,7 @@ export class QuizDisplayerComponent implements OnChanges {
   changeQuestion(idx: number) {
     this.quiz.questions[idx] = this.quiz.extraQuestion!;
     delete this.quiz.extraQuestion;
+    this.allAnswerSelected = false;
   }
 
   checkAllAnswerSelected() {

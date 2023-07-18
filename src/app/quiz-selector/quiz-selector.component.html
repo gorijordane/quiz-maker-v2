@@ -9,14 +9,14 @@
     (dataSelected)="subCategorySelected($event)">
   </app-filterable-dropdown>
 
-  <select id="difficultySelect" [(ngModel)]="selectedDifficulty">
+  <select id="difficultySelect" [(ngModel)]="selectedDifficulty" (ngModelChange)="checkSelectorValid()">
     <option value="">Select a difficulty</option>
     <option *ngFor="let d of difficulties" [ngValue]="d">
       {{ d }}
     </option>
   </select>
 
-  <button id="createBtn" (click)="submit()" [disabled]="isLoading">
+  <button id="createBtn" (click)="submit()" [disabled]="!isValid || isLoading">
     Create
   </button>
 </div>

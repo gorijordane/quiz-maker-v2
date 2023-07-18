@@ -26,7 +26,8 @@ export class FilterableDropdownComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   documentClick(event: MouseEvent) {
-    if (!this.ref.nativeElement.contains(event.target)) {
+    if (this.displayData && !this.ref.nativeElement.contains(event.target)) {
+      this.click(this.filterValue);
       this.displayData = false;
     }
   }
